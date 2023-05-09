@@ -1,6 +1,6 @@
 # sample-workflow-custom-code
-### 1. Update a Deal
-## To update a deal using custom code within a HubSpot workflow, you can use the "Code" action in the workflow to execute JavaScript code. Here's an example of how you can update a deal using custom code in a HubSpot workflow:
+## 1. Update a Deal
+### To update a deal using custom code within a HubSpot workflow, you can use the "Code" action in the workflow to execute JavaScript code. Here's an example of how you can update a deal using custom code in a HubSpot workflow:
 In this example:
 You need to replace 'YOUR_ACCESS_TOKEN' with your actual HubSpot API access token.
 The event.object.objectId is used to retrieve the ID of the deal being processed by the workflow.
