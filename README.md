@@ -11,7 +11,7 @@ In this example:
 - If an error occurs, the error is logged to the console, and the callback is invoked with an error message.
 - Remember to replace 'YOUR_ACCESS_TOKEN' with your actual HubSpot API access token, and ensure that you have the @hubspot/api-client package installed before executing the code.
 
-## 2. [Update Deal Property Based on Line-item ProductID](update-deal-property-based-on-line-item-productid.js)
+## 2. [Update Deal Property Based on Line-item ProductID](update-deal-property-based-on-line-item-productid)
 - Imports the @hubspot/api-client package.
 - Defines an exports.main function that serves as the entry point for the script.
 - Creates a new instance of the HubSpot client by passing an access token obtained from the `process.env.SECRET_NAME` environment variable.
