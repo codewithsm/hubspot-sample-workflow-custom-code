@@ -1,0 +1,86 @@
+const hubspot = require('@hubspot/api-client');
+
+exports.main = async (event, callback) => {
+  const hubspotClient = new hubspot.Client({
+    accessToken: process.env.SECRET_NAME
+  });
+
+  const dealId = event.object.objectId;
+  console.log(dealId);
+
+  try {
+    const lineItemsResponse = await hubspotClient.crm.deals.associationsApi.getAll(dealId, 'line_item');
+    const lineItems = lineItemsResponse.results;
+
+    const lineItemIds = lineItems.map(lineItem => lineItem.toObjectId);
+
+    let increaseBy = 0; // Accumulator for increase values
+
+    for (const lineItemId of lineItemIds) {
+      const properties = undefined;
+      const propertiesWithHistory = undefined;
+      const associations = undefined;
+      const archived = false;
+      const idProperty = undefined;
+
+      try {
+        const lineItemResponse = await hubspotClient.crm.lineItems.basicApi.getById(lineItemId, properties, propertiesWithHistory, associations, archived, idProperty);
+
+        // Retrieve and log the hs_product_id
+        const productId = lineItemResponse.properties.hs_product_id;
+        console.log(productId);
+
+        //HL - Complete Insights - XXL
+        if (productId === "2032483348") {
+          increaseBy += 27;
+        }
+
+        //HL - Complete Insights - XL
+        if (productId === "2032483300") {
+          increaseBy += 20;
+        }
+
+        //HL - Complete Insights - L
+        if (productId === "2032483301") {
+          increaseBy += 15;
+        }
+
+        //HL - Complete Insights - M
+        if (productId === "2032203302") {
+          increaseBy += 10;
+        }
+
+        //HL - Complete Insights - S
+        if (productId === "2032483303") {
+          increaseBy += 5;
+        }
+
+        //HL - Cloud Insights - XXL
+        if (productId === "2032483304") {
+          increaseBy += 27;
+        }
+        
+      } catch (error) {
+        console.error(`Failed to get line item details for line item ID ${lineItemId}: ${error}`);
+      }
+    }
+
+        const dealUpdateRequest = {
+          properties: {
+            days: increaseBy,
+          },
+        };
+
+
+        await hubspotClient.crm.deals.basicApi.update(dealId, dealUpdateRequest);
+
+    callback({
+      outputFields: {
+        days: increaseBy,
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
